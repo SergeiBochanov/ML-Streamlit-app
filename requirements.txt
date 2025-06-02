@@ -5,4 +5,3 @@ matplotlib
 seaborn
 tensorflow
 catboost
-pickle
