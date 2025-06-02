@@ -1,7 +1,7 @@
 pandas
 streamlit
-scikit-learn
+scikit-learn==1.4.2
 matplotlib
-seaborn
-tensorflow
-catboost
+seaborn==0.13.2
+tensorflow==2.18.0
+catboost==1.2.8
