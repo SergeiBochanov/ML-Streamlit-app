@@ -10,6 +10,7 @@ catboost = CatBoostClassifier()
 catboost.load_model("models/catboost_classifier.cbm")
 
 scaler = pickle.load(open("models/scaler.pkl", "rb"))
+knn_scaler = pickle.load(open("models/scaler_knn.pkl", 'rb'))
 models = {
     'KNN': pickle.load(open('models/knn.pkl', 'rb')),
     'BaggingClassifier': pickle.load(open('models/bagging_classifier.pkl', 'rb')),
@@ -36,6 +37,9 @@ if uploaded_file:
             input_scaled = scaler.transform(input_df[features])
             predictions = model.predict(input_scaled)
             predictions = (predictions > 0.5).astype(int).flatten()
+        elif model_choice == "KNN":
+            input_df = knn_scaler.transform(input_df)
+            predictions = model.predict(input_df)
         else:
             predictions = model.predict(input_df)
         results_df = pd.DataFrame(predictions, columns=["Predicted"])
@@ -73,6 +77,9 @@ if submitted:
         input_scaled = scaler.transform(input_single[features])
         prediction = model.predict(input_scaled)
         prediction = (prediction > 0.5).astype(int)[0][0]
+    elif model_choice == "KNN":
+        input_single = knn_scaler.transform(input_single)
+        prediction = model.predict(input_single)[0]
     else:
         prediction = model.predict(input_single)[0]
     result = {
